@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<main class="main">
+
+  <section class="section" style="padding-top:120px; background-color:#0c0c0c; color:white;">
+
+    <form action="{% url 'booking' %}" method="post">
+        {% csrf_token %}
+    <div class="container">
+
+      <!-- Seat Layout -->
+      <div class="seat-layout text-center">
+
+        <!-- Row A -->
+
+        {% for row,seats in all_seats_dict.items %}
+        <div class="d-flex justify-content-center mb-2 align-items-center">
+          <span class="me-2 text-light">{{row}}</span>
+          
+          <!-- Left block -->
+          <div class="d-flex justify-content-start" style="width: 220px;">
+            {% for seat in seats %}
+
+            {% if seat.seat_num < = 5 %}
+            <label style="margin: 0 4px; cursor: pointer;">
+                  <input
+                    type="checkbox"
+                    name="selected_seats"
+                    value="{{ seat.uuid }}"
+                    style="display:none;"
+                  >
+                  <span style="
+                    display:inline-block;
+                    padding:4px 8px;
+                    border:1px solid #fff;
+                    border-radius:4px;
+                    font-size:0.875rem;
+                    color:#fff;
+                  ">
+                    {{ seat.seat_num }}
+                  </span>
+                </label>
+            {% endif %}
+            {% endfor %}
+          </div>
+          
+          <div style="width: 60px;"></div>
+          <!-- Right block -->
+          <div class="d-flex justify-content-start" style="width: 220px;">
+            {% for seat in seats %}
+
+            {% if seat.seat_num > 5 %}
+            <label style="margin: 0 4px; cursor: pointer;">
+                  <input
+                    type="checkbox"
+                    name="selected_seats"
+                    value="{{ seat.uuid }}"
+                    style="display:none;"
+                  >
+                  <span style="
+                    display:inline-block;
+                    padding:4px 8px;
+                    border:1px solid #fff;
+                    border-radius:4px;
+                    font-size:0.875rem;
+                    color:#fff;
+                  ">
+                    {{ seat.seat_num }}
+                  </span>
+                </label>
+            {% endif %}
+            {% endfor%}
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Screen Indicator -->
+      <div class="mt-5 text-center">
+        <div style="background:#666; height:6px; width:60%; margin:auto; border-radius:3px;"></div>
+        <small class="text-muted">SCREEN</small>
+      </div>
+
+      <!-- Confirm Button -->
+      <div class="text-center mt-5">
+        <button type="submit"  class="btn btn-warning">Proceed to Payment</button>
+      </div>
+
+    </div>
+    </form>
+  </section>
+
+</main>
+
+{% endblock %}
